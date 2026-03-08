@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Historia del Sistema Internacional de Unidades</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Cormorant+Garamond:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+/* ESTILO GENERAL */
+
+body{
+margin:0;
+font-family:'Cormorant Garamond',serif;
+background:#fff7fb;
+color:#333;
+scroll-behavior:smooth;
+overflow-x:hidden;
+}
+
+/* barra progreso */
+
+.barra-progreso{
+position:fixed;
+top:0;
+left:0;
+width:0%;
+height:6px;
+background:#b76a82;
+z-index:9999;
+}
+
+/* portada */
+
+.portada{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:
+linear-gradient(rgba(255,245,248,0.9),rgba(255,235,240,0.9)),
+url("https://upload.wikimedia.org/wikipedia/commons/6/6e/Parchment_paper_texture.jpg");
+background-size:cover;
+color:#5a2e3a;
+}
+
+.portada h1{
+font-family:'Playfair Display',serif;
+font-size:52px;
+text-shadow:0 0 10px rgba(255,200,220,0.6);
+}
+
+.decoracion{
+font-size:30px;
+color:#b76a82;
+margin:10px;
+}
+
+.boton{
+padding:12px 25px;
+background:#b76a82;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* línea tiempo */
+
+.timeline-container{
+overflow-x:auto;
+padding:50px;
+}
+
+.timeline{
+display:flex;
+gap:60px;
+position:relative;
+}
+
+.timeline::before{
+content:"";
+position:absolute;
+top:50%;
+left:0;
+width:100%;
+height:4px;
+background:#b76a82;
+}
+
+.evento{
+min-width:240px;
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+opacity:0;
+transform:translateY(40px);
+transition:all .8s;
+}
+
+.evento.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+/* tarjetas */
+
+.unidades{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.tarjeta{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+transition:.3s;
+}
+
+.tarjeta:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* partículas */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+z-index:-1;
+}
+
+/* modo oscuro */
+
+@media(prefers-color-scheme:dark){
+
+body{
+background:#1c1c1c;
+color:#f5f5f5;
+}
+
+.evento,.tarjeta{
+background:#2c2c2c;
+}
+
+#mapaMetric{
+border-radius:12px;
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+margin-top:30px;
+}
+
+}
+
+</style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
+
+<script>
+
+var mapa = L.map('mapaMetric').setView([20,0],2);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:5,
+}).addTo(mapa);
+
+var paisesNoMetricos = [
+["United States",38,-97],
+["Liberia",6.4,-9.3],
+["Myanmar",21.9,95.9]
+];
+
+paisesNoMetricos.forEach(function(p){
+
+L.marker([p[1],p[2]])
+.addTo(mapa)
+.bindPopup(p[0] + "<br>Uso limitado del sistema métrico");
+
+});
+
+</script>
+
+<body>
+
+<div class="barra-progreso" id="barra"></div>
+<canvas id="particulas"></canvas>
+
+<!-- PORTADA -->
+
+<div class="portada">
+
+<h1>Historia del Sistema Internacional de Unidades</h1>
+
+<div class="decoracion">✦ ✧ ✦</div>
+
+<h3>Una línea del tiempo de la evolución de la medición científica</h3>
+
+<p><b>Estudiante:</b> MORA MORA EVELIN EMILET</p>
+<p><b>Materia:</b> REACCIONES QUIMICAS</p>
+<p><b>Profesor:</b> YARENDIE ESPINOZA </p>
+<p><b>Fecha:</b> 2026</p>
+
+<a href="#intro">
+<button class="boton">Explorar</button>
+</a>
+
+</div>
+
+<section id="intro">
+
+<h2>Introducción histórica</h2>
+
+<p>
+Desde la antigüedad las civilizaciones necesitaron medir la longitud,
+el tiempo o el peso para construir ciudades, comerciar y comprender
+la naturaleza. Sin embargo, cada región utilizaba unidades diferentes.
+Esto causaba errores y confusión en el comercio y la ciencia.
+</p>
+
+<p>
+Durante los siglos XVIII y XIX surgió el sistema métrico, que más tarde
+evolucionaría hacia el Sistema Internacional de Unidades (SI), hoy
+utilizado en casi todo el mundo.
+</p>
+
+</section>
+
+<section>
+
+<h2>Línea del tiempo histórica</h2>
+
+<div class="timeline-container">
+<div class="timeline">
+
+<div class="evento">
+<h3>Antigüedad</h3>
+<p>Egipcios, romanos y griegos usaban unidades basadas en partes del cuerpo como el codo o el pie.</p>
+</div>
+
+<div class="evento">
+<h3>1790</h3>
+<p>Durante la Revolución Francesa se propone un sistema universal basado en la naturaleza.</p>
+</div>
+
+<div class="evento">
+<h3>1799</h3>
+<p>Se crean los primeros prototipos oficiales del metro y kilogramo.</p>
+</div>
+
+<div class="evento">
+<h3>1875</h3>
+<p>Se firma la Convención del Metro que establece cooperación internacional en metrología.</p>
+</div>
+
+<div class="evento">
+<h3>1901</h3>
+<p>Giovanni Giorgi propone el sistema MKS con una unidad eléctrica adicional.</p>
+</div>
+
+<div class="evento">
+<h3>1960</h3>
+<p>La CGPM adopta oficialmente el Sistema Internacional de Unidades. 8</p>
+</div>
+
+<div class="evento">
+<h3>1971</h3>
+<p>Se añade el mol como séptima unidad fundamental.</p>
+</div>
+
+<div class="evento">
+<h3>2019</h3>
+<p>El SI se redefine usando constantes físicas fundamentales. 9</p>
+</div>
+
+</div>
+</div>
+
+</section>
+
+<section>
+
+<h2>Científicos destacados</h2>
+
+<p><b>James Clerk Maxwell</b> desarrolló la teoría del electromagnetismo.</p>
+
+<p><b>William Thomson, 1st Baron Kelvin</b> creó la escala absoluta de temperatura.</p>
+
+<p><b>André-Marie Ampère</b> estableció las bases de la corriente eléctrica.</p>
+
+<p><b>Isaac Newton</b> formuló las leyes del movimiento y dio nombre a la unidad de fuerza.</p>
+
+<p><b>Anders Celsius</b> desarrolló la escala de temperatura Celsius.</p>
+
+<p><b>Heinrich Hertz</b> investigó las ondas electromagnéticas.</p>
+
+</section>
+
+<section>
+
+<h2>Las 7 unidades fundamentales del SI</h2>
+
+<div class="unidades">
+
+<div class="tarjeta"><h3>Metro (m)</h3><p>Unidad de longitud.</p></div>
+
+<div class="tarjeta"><h3>Kilogramo (kg)</h3><p>Unidad de masa.</p></div>
+
+<div class="tarjeta"><h3>Segundo (s)</h3><p>Unidad de tiempo.</p></div>
+
+<div class="tarjeta"><h3>Ampere (A)</h3><p>Unidad de corriente eléctrica.</p></div>
+
+<div class="tarjeta"><h3>Kelvin (K)</h3><p>Unidad de temperatura.</p></div>
+
+<div class="tarjeta"><h3>Mol (mol)</h3><p>Cantidad de sustancia.</p></div>
+
+<div class="tarjeta"><h3>Candela (cd)</h3><p>Intensidad luminosa.</p></div>
+
+</div>
+
+</section>
+
+<section id="mapa-metrico">
+
+<h2>Mapa mundial del sistema métrico</h2>
+
+<p>
+El siguiente mapa interactivo muestra cómo el sistema métrico se ha extendido
+por el mundo desde su creación en Francia en 1795. La mayoría de los países
+adoptaron el sistema durante los siglos XIX y XX.
+</p>
+
+<p>
+Hoy el Sistema Internacional de Unidades es el estándar global utilizado en
+ciencia, tecnología, comercio internacional y educación.
+</p>
+
+<div id="mapaMetric" style="height:500px;"></div>
+
+</section>
+
+<section>
+
+<h2>Conclusión</h2>
+
+<p>
+El Sistema Internacional de Unidades es esencial para la ciencia
+moderna. Gracias a él los investigadores de todo el mundo pueden
+comparar resultados y trabajar con precisión.
+</p>
+
+</section>
+
+<section>
+
+<h2>Fuentes bibliográficas</h2>
+
+<p>• Bureau International des Poids et Mesures</p>
+<p>• National Institute of Standards and Technology</p>
+<p>• Encyclopaedia Britannica – International System of Units</p>
+<p>• Artículos académicos de metrología y física.</p>
+
+</section>
+
+<script>
+
+/* barra progreso */
+
+window.onscroll=function(){
+let scrollTop=document.documentElement.scrollTop;
+let altura=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+let progreso=(scrollTop/altura)*100;
+document.getElementById("barra").style.width=progreso+"%";
+}
+
+/* animacion eventos */
+
+const eventos=document.querySelectorAll(".evento");
+
+function mostrarEventos(){
+const trigger=window.innerHeight*0.85;
+eventos.forEach(e=>{
+const top=e.getBoundingClientRect().top;
+if(top<trigger){
+e.classList.add("visible");
+}
+});
+}
+
+window.addEventListener("scroll",mostrarEventos);
+mostrarEventos();
+
+/* partículas */
+
+const canvas=document.getElementById("particulas");
